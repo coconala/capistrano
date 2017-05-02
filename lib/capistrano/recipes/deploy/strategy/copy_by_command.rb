@@ -15,7 +15,7 @@ module Capistrano
           task, servers = filter_servers({})
           process_num = configuration[:deploy_scp_processes] || 5
           results = Parallel.map(servers, in_processes: process_num) do |server|
-            command = "scp #{filename} #{server}:#{remote_filename}"
+            command = "scp -o StrictHostKeyChecking=no #{filename} #{server}:#{remote_filename}"
             execute(command) do
               Open3.capture3(command)
             end
